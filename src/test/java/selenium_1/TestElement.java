@@ -96,6 +96,14 @@ public class TestElement {
     }
 
     @Test
+    public void testW3HomePageSearchElement(){
+        WebDriver driver = new ChromeDriver();
+        driver.get("https://www.w3schools.com/");
+        driver.findElement(By.id("search2")).sendKeys("Java ", Keys.ENTER);
+        driver.quit();
+    }
+
+    @Test
     public void elementUsingCSSSelectorAttribute() {
     }
 
