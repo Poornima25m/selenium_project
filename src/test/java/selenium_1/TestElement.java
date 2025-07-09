@@ -8,11 +8,15 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
+
 
 import java.util.List;
 
 public class TestElement {
     //import org.testng.annotations.Test;
+    public static Logger logger = Logger.getLogger(TestElement.class);
     @BeforeClass
     public void setup() {
         System.setProperty("webdriver.chrome.driver", "C:\\Users\\vpvis\\Downloads\\chromedriver-win64\\chromedriver-win64\\chromedriver.exe");
@@ -26,13 +30,17 @@ public class TestElement {
 
     @Test
     public void clickElement() {
+        PropertyConfigurator.configure(ClassLoader.getSystemResource("log4j.properties"));
         WebDriver driver = new ChromeDriver();
         browserWait(2000);
         driver.get("https://demoqa.com");
         ChromeOptions options = new ChromeOptions();
-        browserWait(2000);
+        browserWait(4000);
+        logger.info("Browser page successfully loaded");
         WebElement elementButton = driver.findElement(By.xpath("//html/body/div[2]/div/div/div[2]/div/div/div/div[2]"));
+        browserWait(2000);
         elementButton.click();
+        logger.info("Element button successfully clicked");
         WebElement textButton = driver.findElement(By.className("text"));
         textButton.click();
         driver.findElement(By.id("userName")).sendKeys("Murugan");
@@ -43,7 +51,9 @@ public class TestElement {
         padd.sendKeys("143", Keys.ENTER, "Lady Love Avenue", Keys.ENTER, "Palmshore 94589");
         browserWait(2000);
         WebElement submitButton = driver.findElement(By.id("submit"));
+        logger.info("Fields action completed.. clicking submit button");
         submitButton.click();
+        logger.info("Successfully submitted");
         driver.quit();
     }
 
