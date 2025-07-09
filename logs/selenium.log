@@ -1,0 +1,13 @@
+2025-06-30 23:50:11 INFO  TestElement:119 - Starting test case: LoginTest
+2025-06-30 23:50:11 DEBUG TestElement:120 - Opening browser
+2025-06-30 23:50:53 INFO  TestElement:119 - Starting test case: LoginTest
+2025-06-30 23:50:53 DEBUG TestElement:120 - Opening browser
+2025-07-09 15:17:02 INFO  TestElement:40 - Info Message
+2025-07-09 15:29:31 INFO  TestElement:40 - Info Message
+2025-07-09 15:32:54 INFO  TestElement:40 - Info Message
+2025-07-09 15:39:42 INFO  TestElement:39 - Info Message
+2025-07-09 15:41:04 INFO  TestElement:39 - Info Message
+2025-07-09 15:45:03 INFO  TestElement:39 - Browser page successfully loaded
+2025-07-09 15:45:32 INFO  TestElement:43 - Element button successfully clicked
+2025-07-09 15:45:58 INFO  TestElement:54 - Fields action completed.. clicking submit button
+2025-07-09 15:45:58 INFO  TestElement:56 - Successfully submitted
