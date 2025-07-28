@@ -11,3 +11,6 @@
 2025-07-09 15:45:32 INFO  TestElement:43 - Element button successfully clicked
 2025-07-09 15:45:58 INFO  TestElement:54 - Fields action completed.. clicking submit button
 2025-07-09 15:45:58 INFO  TestElement:56 - Successfully submitted
+2025-07-28 11:53:45 INFO  TestElement:40 - Browser page successfully loaded
+2025-07-28 11:54:00 INFO  TestElement:127 - Opens herokuapp page
+2025-07-28 11:54:00 INFO  TestElement:130 - Checks navigations
