@@ -6,6 +6,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.interactions.Actions;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import org.apache.log4j.Logger;
@@ -115,6 +116,30 @@ public class TestElement {
 
     @Test
     public void elementUsingCSSSelectorAttribute() {
+    }
+
+    @Test
+    public void herokuApp(){
+        PropertyConfigurator.configure(ClassLoader.getSystemResource("log4j.properties"));
+        WebDriver driver = new ChromeDriver();
+        driver.get("https://the-internet.herokuapp.com/");
+        browserWait(3000);
+        logger.info("Opens herokuapp page");
+        driver.findElement(By.linkText("A/B Testing")).click();
+        driver.navigate().back();
+        logger.info("Checks navigations");
+        driver.findElement(By.linkText("Add/Remove Elements")).click();
+        //xpath using text
+        driver.findElement(By.xpath("//button[text()='Add Element']")).click();
+        driver.findElement(By.className("added-manually")).click();
+        driver.navigate().to("https://the-internet.herokuapp.com");
+//        driver.findElement(By.linkText("Basic Auth")).click();
+//        Actions actions = new Actions(driver);
+//        actions.sendKeys(Keys.TAB).sendKeys("admin")
+//                .sendKeys(Keys.TAB).sendKeys("admin")
+//                .sendKeys(Keys.ENTER).perform();
+        browserWait(3000);
+        driver.quit();
     }
 
 
