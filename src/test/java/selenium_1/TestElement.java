@@ -6,11 +6,11 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.interactions.Actions;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
+import java.lang.String;
 
 
 import java.util.List;
@@ -142,6 +142,19 @@ public class TestElement {
         driver.quit();
     }
 
+    @Test
+    public void getTodayGoldRatePerGram(){
+        WebDriver driver = new ChromeDriver();
+        PropertyConfigurator.configure(ClassLoader.getSystemResource("Log4j.properties"));
+        driver.get("https://www.grtjewels.com");
+        logger.info("Grt Jewels website opened successfully");
+        browserWait(2000);
+        WebElement rate = driver.findElement(
+                By.xpath("//html/body/div/div/div/div[2]/div/ul/li/div/div[2]/button"));
+        String value = rate.getText();
+        logger.info("Today's gold rate is " +value);
+        driver.quit();
+    }
 
     private static void browserWait(int millis) {
         try {
