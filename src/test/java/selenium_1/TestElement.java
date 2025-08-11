@@ -16,11 +16,15 @@ import java.lang.String;
 import java.util.List;
 
 public class TestElement {
+
+    int longWait = 8000;
+    int shortWait = 2000;
+
     //import org.testng.annotations.Test;
     public static Logger logger = Logger.getLogger(TestElement.class);
     @BeforeClass
     public void setup() {
-        System.setProperty("webdriver.chrome.driver", "C:\\Users\\vpvis\\Downloads\\chromedriver-win64\\chromedriver-win64\\chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", "C:\\Users\\vpvis\\Downloads\\chromedriver-win64 (1)\\chromedriver-win64\\chromedriver.exe");
     }
 
     public static WebDriver getDriver() {
@@ -33,34 +37,37 @@ public class TestElement {
     public void clickElement() {
         PropertyConfigurator.configure(ClassLoader.getSystemResource("log4j.properties"));
         WebDriver driver = new ChromeDriver();
-        browserWait(2000);
+        browserWait(shortWait);
         driver.get("https://demoqa.com");
         ChromeOptions options = new ChromeOptions();
-        browserWait(4000);
+        //browserWait(longWait);
         logger.info("Browser page successfully loaded");
         WebElement elementButton = driver.findElement(By.xpath("//html/body/div[2]/div/div/div[2]/div/div/div/div[2]"));
-        browserWait(2000);
+        //browserWait(shortWait);
         elementButton.click();
+        //browserWait(shortWait);
         logger.info("Element button successfully clicked");
         WebElement textButton = driver.findElement(By.className("text"));
         textButton.click();
+        browserWait(longWait);
         driver.findElement(By.id("userName")).sendKeys("Murugan");
         driver.findElement(By.id("userEmail")).sendKeys("abc123@gmail.com");
-        WebElement textArea = driver.findElement(By.id("currentAddress"));
-        textArea.sendKeys("143", Keys.ENTER, "Lady Love Avenue", Keys.ENTER, "Palmshore 94589");
-        WebElement padd = driver.findElement(By.id("permanentAddress"));
-        padd.sendKeys("143", Keys.ENTER, "Lady Love Avenue", Keys.ENTER, "Palmshore 94589");
-        browserWait(2000);
+        WebElement currentAddress = driver.findElement(By.id("currentAddress"));
+        currentAddress.sendKeys("143", Keys.ENTER, "Lady Love Avenue", Keys.ENTER, "Palmshore 94589");
+        WebElement permanentAddress = driver.findElement(By.id("permanentAddress"));
+        permanentAddress.sendKeys("143", Keys.ENTER, "Lady Love Avenue", Keys.ENTER, "Palmshore 94589");
+        browserWait(longWait);
         WebElement submitButton = driver.findElement(By.id("submit"));
         logger.info("Fields action completed.. clicking submit button");
         submitButton.click();
         logger.info("Successfully submitted");
+        browserWait(shortWait);
         driver.quit();
     }
 
     @Test
     public void webElementMultiple() {
-        WebDriver driver = getDriver();
+        WebDriver driver = openWebPage("https://testautomationpractice.blogspot.com/");
         driver.findElement(By.cssSelector("#name")).sendKeys("Murugan");
         //driver.findElement(By.id("name")).sendKeys("Murugan");
         driver.findElement(By.id("email")).sendKeys("mgn@yahoo.com");
@@ -144,16 +151,65 @@ public class TestElement {
 
     @Test
     public void getTodayGoldRatePerGram(){
-        WebDriver driver = new ChromeDriver();
-        PropertyConfigurator.configure(ClassLoader.getSystemResource("Log4j.properties"));
-        driver.get("https://www.grtjewels.com");
-        logger.info("Grt Jewels website opened successfully");
-        browserWait(2000);
+        WebDriver driver = openWebPage("https://www.grtjewels.com");
         WebElement rate = driver.findElement(
                 By.xpath("//html/body/div/div/div/div[2]/div/ul/li/div/div[2]/button"));
         String value = rate.getText();
         logger.info("Today's gold rate is " +value);
         driver.quit();
+    }
+
+    @Test
+    public void getPriceAndNameFromAmazonTopSearchResults() {
+        WebDriver driver = openWebPage("https://www.amazon.com");
+        driver.findElement(By.xpath("/html/body/div/div[1]/div[3]/div/div/form/div/div/span/span/button")).click();
+        WebElement searchBar = driver.findElement(By.id("twotabsearchtextbox"));
+        searchBar.sendKeys("wireless mouse", Keys.ENTER);
+        logger.info("Located the search bar and submitted the search");
+//        WebElement firstResult = driver.findElement(By.partialLinkText("G305"));
+//        logger.info("located the correct name");
+//        String name = firstResult.getText();
+//        logger.info("First search result is " +name);
+//        WebElement firstPrice = driver.findElement(By.xpath("/html/body/div[1]/div[1]/div[1]/div[1]/div/span[1]/div[1]/div[3]/div/div/div/div/span/div/div"));
+//        String price = firstPrice.getText();
+
+
+        // ✅ Extract the Product Name
+        WebElement productTitle = driver.findElement(By.xpath("//span[contains(text(), 'Wireless')]")); // Update with more specific identifier
+        String name1 = productTitle.getText();
+
+        // 💲 Extract the List Price
+        WebElement listPriceElement = driver.findElement(By.xpath("//span[contains(text(),'List:')]/following-sibling::span"));
+        String price = listPriceElement.getText();
+
+        // 📤 Output the results
+        System.out.println("Product Name: " + name1);
+        System.out.println("List Price: " + price);
+
+        logger.info(price);
+        //firstPrice.click();
+        //WebElement target = driver.findElement(By.xpath("//input[@id='duplicateId' and @name='username']"));
+        //WebElement firstSearch = driver.findElement(By.xpath("//input[@id='productTitle' and @class='a-size-large product-title-word-break']"));
+//        WebElement firstSearch = driver.findElement(By.xpath("/html/body/div[1]/div[1]/div[1]/div[1]/div/span[1]/div[1]/div[3]/div/div/div/div/span/div/div/div/div[2]/div/div/div[1]/a/h2/span/text()"));
+//        String name1 = firstSearch.getText();
+//        logger.info(name1);
+        browserWait(2000);
+        driver.quit();
+    }
+
+    @Test
+    public void openLinkedInMainPage(){
+        WebDriver myDriver = openWebPage("https://www.linkedin.com");
+        myDriver.quit();
+    }
+
+    private static WebDriver openWebPage(String url) {
+        WebDriver driver = new ChromeDriver();
+        PropertyConfigurator.configure(ClassLoader.getSystemResource("Log4j.properties"));
+        driver.get(url);
+        logger.info("Webpage: " + url + " -- opened successfully");
+        browserWait(2000);
+        return driver;
     }
 
     private static void browserWait(int millis) {
