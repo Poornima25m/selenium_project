@@ -1,9 +1,6 @@
 package selenium_1;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.annotations.BeforeClass;
@@ -14,6 +11,7 @@ import java.lang.String;
 
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class TestElement {
 
@@ -201,6 +199,39 @@ public class TestElement {
     public void openLinkedInMainPage(){
         WebDriver myDriver = openWebPage("https://www.linkedin.com");
         myDriver.quit();
+    }
+
+    @Test
+    public void handlingAlerts(){
+        WebDriver driver = openWebPage("https://letcode.in/");
+        driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
+        driver.findElement(By.id("testing")).click();
+        WebElement alertElement = driver.findElement(By.xpath("/html/body/app-root/app-test-site/section[2]/div/div/div/div[5]/app-menu/div/footer/a"));
+        alertElement.click();
+        driver.findElement(By.id("accept")).click();
+        Alert alert = driver.switchTo().alert();
+        alert.accept();
+        driver.findElement(By.id("confirm")).click();
+        Alert alertConfirm = driver.switchTo().alert();
+        alertConfirm.dismiss();
+        driver.findElement(By.id("prompt")).click();
+        Alert alertPrompt = driver.switchTo().alert();
+        alertPrompt.sendKeys("Poornima");
+        alertPrompt.accept();
+        driver.findElement(By.id("modern")).click();
+        WebElement element = driver.findElement(By.xpath("/html/body/app-root/app-alert/section/div/div/div[1]/div/div/div[5]/button"));
+        element.click();
+        driver.quit();
+    }
+
+    @Test
+    public void handlingWindows(){
+        WebDriver driver = openWebPage("https://letcode.in/");
+        driver.manage().window().maximize();
+        driver.manage().timeouts().implicitlyWait(20,TimeUnit.SECONDS);
+        driver.findElement(By.id("testing")).click();
+        driver.quit();
+
     }
 
     private static WebDriver openWebPage(String url) {
