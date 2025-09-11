@@ -1,5 +1,6 @@
 package selenium_1;
 
+import com.google.common.collect.Table;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -204,6 +205,7 @@ public class TestElement {
     @Test
     public void handlingAlerts(){
         WebDriver driver = openWebPage("https://letcode.in/");
+        //driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
         driver.findElement(By.id("testing")).click();
         WebElement alertElement = driver.findElement(By.xpath("/html/body/app-root/app-test-site/section[2]/div/div/div/div[5]/app-menu/div/footer/a"));
@@ -231,7 +233,63 @@ public class TestElement {
         driver.manage().timeouts().implicitlyWait(20,TimeUnit.SECONDS);
         driver.findElement(By.id("testing")).click();
         driver.quit();
+    }
 
+    @Test
+    public void selectParticularCheckbox(){
+        WebDriver driver = new ChromeDriver();
+        PropertyConfigurator.configure(ClassLoader.getSystemResource("Log4j.properties"));
+        driver.get("https://letcode.in/table");
+        WebElement simpleTable = driver.findElement(By.id("simpletable"));
+        List<WebElement> allRows = simpleTable.findElements(By.cssSelector("tbody tr"));
+        for (int i = 0; i < allRows.size(); i++) {
+            List<WebElement> columns = allRows.get(i).findElements(By.tagName("td"));
+            WebElement row = columns.get(1);
+            String rowText = row.getText();
+            if (rowText.equals("Raj")) {
+                WebElement checkBox = columns.get(3).findElement(By.tagName("input"));
+                checkBox.click();
+                logger.info("Checkbox for Raj is selected");
+                break;
+            }
+        }
+        browserWait(2000);
+        driver.quit();
+    }
+
+    // 1. table
+    // 2. header details
+    // 3. body details
+    // 4. footer details
+    // 5. all table contents (cells)
+    // 6. act on specific cell
+        // 6a. find the row
+        // 6b. make action
+
+
+    @Test
+    public void getTableRecords(){
+        WebDriver driver = new ChromeDriver();
+        PropertyConfigurator.configure(ClassLoader.getSystemResource("Log4j.properties"));
+        driver.get("https://letcode.in/table");
+        WebElement table = driver.findElement(By.id("shopping"));
+        List<WebElement> column = table.findElements(By.tagName("th"));
+        logger.info("No. of columns in Shopping Table = " + column.size());
+        List<WebElement> rows = table.findElements(By.tagName("tr"));
+        logger.info("No. of row in shopping Table = " + rows.size());
+            List<WebElement> cells = table.findElements(By.xpath("./*"));
+            logger.info(cells.size());
+            for (WebElement cell : cells) {
+                logger.info(cell.getText());
+            }
+            for (WebElement row :rows){
+                List<WebElement> data = row.findElements(By.tagName("td"));
+                if (!data.isEmpty()) {
+                    WebElement firstColumn = data.get(0);
+                    logger.info(firstColumn.getText());
+                }
+            }
+        driver.quit();
     }
 
     private static WebDriver openWebPage(String url) {
