@@ -8,11 +8,14 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
+
+import java.io.File;
 import java.lang.String;
 
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.FileHandler;
 
 public class TestElement {
 
@@ -289,6 +292,22 @@ public class TestElement {
                     logger.info(firstColumn.getText());
                 }
             }
+        driver.quit();
+    }
+
+    @Test
+    public void takeScreenshot(){
+        WebDriver driver = new ChromeDriver();
+        PropertyConfigurator.configure(ClassLoader.getSystemResource("Log4j.properties"));
+        driver.get("https://letcode.in/table");
+        TakesScreenshot ts = (TakesScreenshot) driver;
+        File source = ts.getScreenshotAs(OutputType.FILE);
+        File destination = new File("C:\\Users\\vpvis\\image.png");
+        try {
+            org.openqa.selenium.io.FileHandler.copy(source, destination);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
         driver.quit();
     }
 
